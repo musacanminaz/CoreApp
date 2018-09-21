@@ -34,7 +34,7 @@ namespace App.Business.Concrete
 
         public List<Product> GetByCategory(int categoryId)
         {
-            return _productDal.GetList(p=>p.CategoryId == categoryId);
+            return _productDal.GetList(p=>p.CategoryId == categoryId || categoryId == 0);
         }
 
         public void Update(Product product)
