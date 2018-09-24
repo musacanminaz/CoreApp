@@ -12,5 +12,6 @@ namespace App.Business.Abstract
         void Add(Product product);
         void Update(Product product);
         void Delete(Product product);
+        Product GetById(int productId);
     }
 }

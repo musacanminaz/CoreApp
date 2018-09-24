@@ -6,6 +6,7 @@ using App.Business.Abstract;
 using App.Business.Concrete;
 using App.DataAccess.Abstract;
 using App.DataAccess.Concrete.EntityFramework;
+using App.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,13 @@ namespace App.Web
             services.AddScoped<IProductDal, EfProductDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICategoryDal, EfCategoryDal>();
-            services.AddSession();
+            services.AddSingleton<ICartService, CartManager>();
+            services.AddSingleton<ICartSessionService, CartSessionService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+
+            services.AddSession();  
             services.AddDistributedMemoryCache();
 
             services.AddMvc();
@@ -41,9 +48,20 @@ namespace App.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
 
             app.UseSession();
-            app.UseMvcWithDefaultRoute();
+            app.UseStaticFiles();
+            app.UseNodeModules(env);
+            app.UseMvc(cfg =>
+            {
+                cfg.MapRoute("Default",
+                    "{controller}/{action}/{id?}",
+                    new {controller = "Home", Action = "Index"});
+            });
         }
     }
 }
