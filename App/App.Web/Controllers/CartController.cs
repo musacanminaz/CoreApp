@@ -10,9 +10,9 @@ namespace App.Web.Controllers
 {
     public class CartController: Controller
     {
-        private ICartSessionService _cartSessionService;
-        private ICartService _cartService;
-        private IProductService _productService;
+        private readonly ICartSessionService _cartSessionService;
+        private readonly ICartService _cartService;
+        private readonly IProductService _productService;
 
         public CartController(ICartSessionService cartSessionService, ICartService cartService, IProductService productService)
         {
@@ -31,7 +31,7 @@ namespace App.Web.Controllers
 
             _cartSessionService.SetCart(cart);
 
-            TempData.Add("message", String.Format("{0} adet {1} sepete eklendi",quantity, productToBeAdded.ProductName));
+            TempData.Add("message", String.Format("{0} adet {1} sepete eklendi", quantity, productToBeAdded.ProductName));
 
             return RedirectToAction("List", "Product");
         }

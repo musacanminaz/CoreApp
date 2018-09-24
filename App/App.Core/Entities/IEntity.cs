@@ -6,7 +6,7 @@ namespace App.Core.Entities
 {
     public interface IEntity
     {
-        bool IsActive { get; set; }
-        bool IsDelete { get; set; }
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model App.Web.Models.ProductListViewModel
+﻿@model ProductListViewModel
 
 <!DOCTYPE html>
 
@@ -11,6 +11,10 @@
     @await Component.InvokeAsync("CategoryList")
 </div>
 
+@foreach (var item in Model.Product)
+{
+    @item.ProductName
+}
 <product-list-pager
     current-category ="@Model.CurrentCategory"
     current-page ="@Model.CurrentPage"

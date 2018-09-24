@@ -11,7 +11,7 @@ namespace App.Web.ViewComponents
 {
     public class CategoryListViewComponent: ViewComponent
     {
-        private ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         public CategoryListViewComponent(ICategoryService categoryService)
         {

@@ -60,5 +60,6 @@ namespace App.Core.DataAccess.EntityFramework
                 context.SaveChanges();
             }
         }
+
     }
 }

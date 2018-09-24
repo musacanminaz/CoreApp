@@ -10,9 +10,9 @@ namespace App.DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\DESKTOP-POTPHBS;Database=AppDb;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppDb;Integrated Security=True");
         }
-
+       
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
     }
