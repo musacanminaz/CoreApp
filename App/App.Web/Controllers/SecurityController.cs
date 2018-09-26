@@ -13,12 +13,14 @@ namespace App.Web.Controllers
     {
         private UserManager<AppIdentityUser> _userManager;
         private SignInManager<AppIdentityUser> _signInManager;
+        private RoleManager<AppIdentityRole> _roleManager;
 
         public SecurityController(UserManager<AppIdentityUser> userManager,
-            SignInManager<AppIdentityUser> signInManager)
+            SignInManager<AppIdentityUser> signInManager, RoleManager<AppIdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
 
@@ -76,6 +78,7 @@ namespace App.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid)
@@ -94,6 +97,22 @@ namespace App.Web.Controllers
 
             if (result.Succeeded)
             {
+                //Ilk Kayıt için
+                if (!await _roleManager.RoleExistsAsync("Admin"))
+                {
+                    var users = new AppIdentityRole("Admin");
+                    var res = await _roleManager.CreateAsync(users);
+                    if (res.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+
+                }
+
+                await _userManager.AddToRoleAsync(user, "User");
+
+
+                // Eposta Onayı
                 var confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callBackUrl = Url.Action("ConfirmEmail", "Security",
                     new {userId = user.Id, code = confirmationCode});
@@ -184,6 +203,7 @@ namespace App.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
             if (!ModelState.IsValid)
@@ -213,5 +233,7 @@ namespace App.Web.Controllers
         {
             return View();
         }
+
+       
     }
 }

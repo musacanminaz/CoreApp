@@ -10,12 +10,17 @@ namespace App.Web.Models.Security
     {
         [Required]
         public string UserName { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "{0} en az {2} en fazla {1} uzunluğunda olabilir", MinimumLength = 6)]
         public string Password { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Girdiğiniz Şifreler Aynı Değil")]
         public string ConfirmedPassword { get; set; }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
