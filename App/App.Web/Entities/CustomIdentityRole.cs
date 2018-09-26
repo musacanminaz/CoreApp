@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace App.Web.Entities
 {
-    public class CustomIdentityRole:IdentityRole
+    public class CustomIdentityRole : IdentityRole
     {
+        public CustomIdentityRole(string roleName) : base(roleName)
+        {
+        }
     }
 }

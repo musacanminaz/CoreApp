@@ -6,6 +6,7 @@ using App.Business.Abstract;
 using App.Business.Concrete;
 using App.DataAccess.Abstract;
 using App.DataAccess.Concrete.EntityFramework;
+using App.Web.Entities;
 using App.Web.Identity;
 using App.Web.Services;
 using Microsoft.AspNetCore.Builder;
@@ -73,7 +74,7 @@ namespace App.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<CustomIdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -95,6 +96,9 @@ namespace App.Web
                     "{controller}/{action}/{id?}",
                     new {controller = "Home", Action = "Index"});
             });
+
+            //tek seferlik çalıştırmalık
+            await RoleInitializer.Initial(roleManager);
         }
     }
 }
